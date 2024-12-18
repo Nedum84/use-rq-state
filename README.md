@@ -1,53 +1,52 @@
-npm create vite@latest . -- --template react-ts
-yarn add -D tailwindcss postcss autoprefixer
+# useRQState: Simplified State Management Across Components
 
-# React + TypeScript + Vite
+An alternative to useState, useRQState helps manage states without prop drilling. Just use the same query key across components, and it works out of the box.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### useRQState implementation
 
-Currently, two official plugins are available:
+```typescript
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { queryClient } from "Utils/reactquery";
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+export function useRQState<T>(queryKey: string, initialData?: T | ((...args: any[]) => T)) {
+  const { data, ...others } = useQuery({
+    queryKey: [queryKey],
+    initialData: () => {
+      if (initialData === undefined) {
+        const storedData = getQueryCache<T>(queryKey, true);
+        return storedData;
+      }
 
-## Expanding the ESLint configuration
+      if (typeof initialData === "function") {
+        const val = (initialData as CallableFunction)();
+        return val;
+      }
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
+      return initialData;
     },
-  },
-});
+    refetchInterval: false,
+    refetchOnReconnect: false,
+    refetchIntervalInBackground: false,
+  });
+
+  function setData(update: Partial<T> | ((prevState: T) => Partial<T>)) {
+    queryClient.setQueryData([queryKey], (prevState: T | undefined) => {
+      if (typeof update === "function") {
+        return (update as (prevState: T) => Partial<T>)(prevState as T);
+      }
+      return update;
+    });
+  }
+
+  return [data, setData, { ...others }] as [
+    T,
+    (update: Partial<T> | ((prevState: T) => Partial<T>)) => void,
+    Omit<UseQueryResult<T>, "data">
+  ];
+}
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### More
 
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
-});
-```
+- **Live Demo**: [https://nedum84.github.io/use-rq-state/](https://nedum84.github.io/use-rq-state)
+- **Article**: [https://nedum84.github.io/use-rq-state/](https://nedum84.github.io/use-rq-state/)
