@@ -5,8 +5,8 @@ export function useRQState<T>(
   queryKey: string,
   initialData?: T | ((...args: any[]) => T)
 ): [
-  T | undefined,
-  (update: Partial<T> | ((prevState: T | undefined) => Partial<T>)) => void,
+  T,
+  (update: Partial<T> | ((prevState: T) => Partial<T>)) => void,
   Omit<UseQueryResult<T>, "data">
 ] {
   const { data, ...others } = useQuery({
