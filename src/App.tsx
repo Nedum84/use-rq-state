@@ -7,7 +7,7 @@ export default function App() {
   const [, setMultiply] = useRQState("multiply", 2);
   const [, setUser] = useRQState<User>("user", {
     name: "Nelson",
-    age: 43,
+    age: 42,
     location: "Lagos",
   });
 
