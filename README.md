@@ -8,7 +8,14 @@ An alternative to useState, useRQState helps manage states without prop drilling
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { queryClient } from "Utils/reactquery";
 
-export function useRQState<T>(queryKey: string, initialData?: T | ((...args: any[]) => T)) {
+export function useRQState<T>(
+  queryKey: string,
+  initialData?: T | ((...args: any[]) => T)
+): [
+  T | undefined,
+  (update: Partial<T> | ((prevState: T | undefined) => Partial<T>)) => void,
+  Omit<UseQueryResult<T>, "data">
+] {
   const { data, ...others } = useQuery({
     queryKey: [queryKey],
     initialData: () => {
@@ -38,11 +45,7 @@ export function useRQState<T>(queryKey: string, initialData?: T | ((...args: any
     });
   }
 
-  return [data, setData, { ...others }] as [
-    T,
-    (update: Partial<T> | ((prevState: T) => Partial<T>)) => void,
-    Omit<UseQueryResult<T>, "data">
-  ];
+  return [data, setData, { ...others }];
 }
 ```
 
