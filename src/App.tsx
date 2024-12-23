@@ -91,23 +91,23 @@ export default function App() {
             <p className="flex gap-2">
               Source Code:
               <a
-                href="https://whewjehwe.com"
+                href="https://github.com/Nedum84/use-rq-state"
                 className="text-blue-600 hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                whewjehwe.com
+                https://github.com/Nedum84/use-rq-state
               </a>
             </p>
             <p className="flex gap-2">
               Article:
               <a
-                href="https://whewjehwe.com"
+                href="https://dev.to/thenelson_o/advanced-csrf-protection-with-rsa-1loi"
                 className="text-blue-600 hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                whewjehwe.com
+                https://dev.to/thenelson_o/advanced-csrf....
               </a>
             </p>
           </div>
