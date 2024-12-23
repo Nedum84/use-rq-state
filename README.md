@@ -52,4 +52,4 @@ export function useRQState<T>(
 ### More
 
 - **Live Demo**: [https://nedum84.github.io/use-rq-state/](https://nedum84.github.io/use-rq-state)
-- **Article**: [https://nedum84.github.io/use-rq-state/](https://nedum84.github.io/use-rq-state/)
+- **Detailed Article**: [https://dev.to/thenelson_o/simplified-state-management-with-userqstate-a-better-alternative-to-usestate-3eno/](useRQState Management on Dev.to)

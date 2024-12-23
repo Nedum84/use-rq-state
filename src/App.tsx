@@ -102,12 +102,12 @@ export default function App() {
             <p className="flex gap-2">
               Article:
               <a
-                href="https://dev.to/thenelson_o/advanced-csrf-protection-with-rsa-1loi"
+                href="https://dev.to/thenelson_o/simplified-state-management-with-userqstate-a-better-alternative-to-usestate-3eno"
                 className="text-blue-600 hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                https://dev.to/thenelson_o/advanced-csrf....
+                https://dev.to/thenelson_o/simplified-stat....
               </a>
             </p>
           </div>
